@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import * as actions from '../actions/actions.js';
+import * as actions from '../../actions/actions.js';
 
 const App = () => {
     const greeting = useSelector((state) => state.greeting.greeting);
