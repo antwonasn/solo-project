@@ -1,2 +1,2 @@
-# solo-project
+# Solo Project
 Solo project, financial tracking app.

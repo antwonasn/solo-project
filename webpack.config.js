@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: path.resolve(__dirname, 'client/index.js'),
@@ -6,7 +7,13 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
   },
-  mode: 'development', // Corrected from 'developement'
+  mode: 'development',
+  devServer: {
+    static: path.resolve(__dirname, 'build'),
+    hot: true,
+    open: true, // Automatically open the browser
+    port: 8080, // You can specify a port
+  },
   module: {
     rules: [
       {
@@ -30,6 +37,19 @@ module.exports = {
           'sass-loader', // Compiles Sass to CSS
         ],
       },
+      {
+        test: /\.css$/, // Match .css files
+        use: [
+          'style-loader', // Creates `style` nodes from JS strings
+          'css-loader', // Translates CSS into CommonJS
+        ],
+      },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'build/index.html'), // Point to your existing HTML file
+      inject: false, // Do not inject scripts automatically
+    }),
+  ],
 };

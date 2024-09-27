@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+  }
+  
+  .container {
+    margin: 20px;
+  }
+
+  p {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+  }
