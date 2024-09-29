@@ -1,5 +1,6 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: rgb(167, 167, 167);
   }
   
   h1 {
@@ -15,3 +16,5 @@ body {
     color: rgb(0, 0, 0);
     font-weight: bold;
   }
+
+  

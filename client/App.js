@@ -1,10 +1,12 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Use Routes instead of Switch
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from './actions/actions.js';
 import MainContainer from './containers/MainContainer.jsx';
+import AccountContainer from './containers/AccountContainer.jsx';
 
 const App = () => {
-  const greeting = useSelector((state) => state.greeting.greeting);
+  const greeting = useSelector((state) => state.state.greeting);
   const dispatch = useDispatch();
 
   const changeGreeting = () => {
@@ -12,11 +14,18 @@ const App = () => {
   };
 
   return (
-    <div>
-      <button onClick={changeGreeting}>Change Greeting</button>
-      <h1>{greeting}</h1>
-      <MainContainer /> 
-    </div>
+    <Router> {/* Wrap everything in Router */}
+      <div>
+        <button onClick={changeGreeting}>Change Greeting</button>
+        <h1>{greeting}</h1>
+        
+        {/* Set up routing */}
+        <Routes>
+          <Route path="/" element={<MainContainer />} /> {/* Use element prop */}
+          <Route path="/accounts" element={<AccountContainer />} /> Use element prop
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

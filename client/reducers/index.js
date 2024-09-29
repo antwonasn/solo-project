@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import greetingReducer from './greetingReducer'; // Create this file next
 
 const rootReducer = combineReducers({
-    greeting: greetingReducer,
+    state: greetingReducer,
 });
 
 export default rootReducer;
