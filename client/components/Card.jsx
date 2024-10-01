@@ -14,30 +14,18 @@ const StyledDiv = styled.div`
       case 'High':
         return 'green';
       default:
-        return 'black'; 
+        return 'black';
     }
   }};
 `;
 
-const Card = (props) => {
- 
-  console.log(props)
-
+const Card = ({ accountType, taxBracket, accountName }) => {
   return (
-    <StyledDiv taxBracket={props.taxBracket}>
-      <h1>Hello!</h1>
-      <p>Account type {props.accountType || 'No item selected'}</p>
+    <StyledDiv taxBracket={taxBracket}>
+      <h1>Account name: {accountName} </h1>
+      <p>Account type: {accountType}</p>
+      <p>Tax Bracket: {taxBracket}</p>
     </StyledDiv>
   );
 };
-
-// const Card = ({ accountType, taxBracket }) => {
-//     return (
-//       <StyledDiv taxBracket={taxBracket}>
-//         <h1>Hello!</h1>
-//         <p>Account type: {accountType || 'No item selected'}</p>
-//         <p>Tax Bracket: {taxBracket || 'No tax bracket selected'}</p>
-//       </StyledDiv>
-//     );
-//   };
 export default Card;

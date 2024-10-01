@@ -35,36 +35,27 @@ const MainContainer = () => {
   };
 
   const selectedItem = useSelector((state) => state.state.selectedItem);
-  console.log('Selected item from Redux:', selectedItem);
+  const cards = useSelector((state) => state.state.cards);
+  console.log('Selected item from Redux:', cards);
   // set react states
   const [formData, setFormData] = useState({
     accountType: '',
     taxBracket: '',
+    accountName:'',
   });
 
-  const [cards, setCards] = useState([]);
 
   const addCard = (e) => {
-    // {
-    //   dispatch(actions.addNewCard({
-    //     selectedItem,
-    //     taxBracket: formData.taxBracket,
-    //     accountType: formData.accountType,
-    //   }));
-    //   setFormData({ accountType: '', taxBracket: '' });
-    // };
-
     e.preventDefault();
-    setCards((prevCards) => [
-      ...prevCards,
-      <Card
-        key={prevCards.length}
-        selectedItem={selectedItem}
-        taxBracket={formData.taxBracket}
-        accountType={formData.accountType}
-      />, // Pass selectedItem to new Card
-    ]);
-    setFormData({ accountType: '', taxBracket: '' });
+    {
+      dispatch(actions.addNewCard({
+        selectedItem,
+        taxBracket: formData.taxBracket,
+        accountType: formData.accountType,
+        accountName: formData.accountName
+      }));
+      setFormData({ accountType: '', taxBracket: '' , accountName: ''});
+    };
   };
 
   const navigateToAnotherPage = () => {
@@ -89,10 +80,18 @@ const MainContainer = () => {
       </StyledSelect>
 
       <StyledForm onSubmit={(e) => addCard(e)}>
+      <label htmlFor='accountType:'>Enter account name:</label>
+        <input
+          type='text'
+          id='accountName' required
+          name='accountName'
+          value={formData.accountName}
+          onChange={handleInputChange}
+        />
         <label htmlFor='accountType:'>Enter account type:</label>
         <input
           type='text'
-          id='accountType'
+          id='accountType' required
           name='accountType'
           value={formData.accountType}
           onChange={handleInputChange}
@@ -115,7 +114,14 @@ const MainContainer = () => {
       </StyledForm>
 
       <button onClick={navigateToAnotherPage}>Accounts</button>
-      <StyledDiv>{cards}</StyledDiv>
+      <StyledDiv>{cards.map((card) => (
+        <Card
+          key={card.id} // Use the unique ID here
+          accountType={card.accountType}
+          taxBracket={card.taxBracket}
+          accountName={card.accountName}
+        />
+      ))}</StyledDiv>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 const initialState = {
   greeting: 'Welcome and hello my freindorions',
   selectedItem: null,
+  cards: [],
 };
 
 const greetingReducer = (state = initialState, action) => {
