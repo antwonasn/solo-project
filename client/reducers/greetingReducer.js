@@ -1,7 +1,16 @@
+import { v4 as uuidv4 } from 'uuid';
 const initialState = {
   greeting: 'Welcome and hello my freindorions',
   selectedItem: null,
-  cards: [],
+  cards: [
+    {
+      selectedItem: null,
+      taxBracket: 'Low',
+      accountType: 'asda',
+      accountName: 'adas',
+      id: uuidv4(),
+    },
+  ],
 };
 
 const greetingReducer = (state = initialState, action) => {
@@ -13,7 +22,7 @@ const greetingReducer = (state = initialState, action) => {
         ...state,
         selectedItem: action.payload,
       };
-      case 'ADD_CARD': // Handle adding a card
+    case 'ADD_CARD': // Handle adding a card
       return {
         ...state,
         cards: [...state.cards, action.payload], // Add new card to the cards array

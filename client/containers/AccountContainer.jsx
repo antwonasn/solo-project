@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import AccountCard from '../components/AccountCard.jsx';
+
+const StyledDiv = styled.div`
+  padding: 20px;
+  border: 1.5px solid; // Keep the border defined here
+`;
 
 const StyledForm = styled.form`
   padding: 10px;
@@ -8,72 +14,28 @@ const StyledForm = styled.form`
   margin-bottom: 20px;
 `;
 
+const StyledSelect = styled.select`
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+`;
+
 const AccountContainer = () => {
-  const [formData, setFormData] = useState({
-    password: '',
-    userName: '',
-  });
-  const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
+  const user = localStorage.getItem('user');
+  console.log('userID from accounts', user);
   const navigateToAnotherPage = () => {
     navigate('/'); // Use the navigate function to go to another page
   };
-//add user event handler
-  const addUser = async (e) => {
-    e.preventDefault();
-    const endpoint = isLogin ? 'http://localhost:3000/login' : 'http://localhost:3000/signup';
-    
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: formData.userName,
-          password: formData.password,
-        }),
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('User processed:', data);
-        setFormData({ password: '', userName: '' }); // Clear form
-      } else {
-        console.error('Failed to process user');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-// verify user event handler
-  const verifyUser = async (e) => {
-    e.preventDefault();
+  const [accounts, setAccounts] = useState([]);
 
-    try {
-      const response = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: formData.userName,
-          password: formData.password,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('User verified:', data);
-        setFormData({ password: '', userName: '' }); // Clear form
-        // Add any additional logic for successful login here (e.g., redirecting)
-      } else {
-        console.error('Failed to verify user');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+  const [formData, setFormData] = useState({
+    accountType: '',
+    taxBracket: '',
+    accountName: '',
+    accountSummary: '',
+  });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -82,35 +44,129 @@ const AccountContainer = () => {
       [name]: value,
     }));
   };
+  // handler for account creation submit button
+  const addAccount = async (e) => {
+    e.preventDefault();
+    const endpoint = `http://localhost:3000/accounts/${user}`;
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          accountName: formData.accountName,
+          accountType: formData.accountType,
+          accountSummary: formData.accountSummary,
+          taxBracket: formData.taxBracket,
+          userId: user,
+        }),
+      });
 
+      if (response.ok) {
+        const data = await response.json(); // Extract the response data
+        console.log('Account created:', data); // Log the created account details
+        setFormData({
+          accountName: '',
+          accountType: '',
+          accountSummary: '',
+          taxBracket: '',
+        }); // Clear form only on success
+        fetchAccounts();
+      } else {
+        const errorData = await response.json(); // Get error message from response if available
+        setError(errorData.message || 'Error during account creation');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  //use effect to render associated user's accounts
+  const fetchAccounts = async () => {
+    const endpoint = `http://localhost:3000/accounts/${user}`; // Adjust the endpoint based on your API
+    try {
+      const response = await fetch(endpoint);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('response from fetch call', data);
+        setAccounts(data);
+      } else {
+        const errorData = await response.json();
+        console.error('Error fetching accounts:', errorData);
+        setError(errorData.message || 'Error fetching accounts');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred while fetching accounts.');
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchAccounts(); // Fetch accounts when the component mounts
+    }
+  }, [user]);
+  console.log('accounts array', accounts);
   return (
-    <div>
-      <StyledForm onSubmit={isLogin ? verifyUser : addUser}>
-        <label htmlFor='userName'>Enter User Name:</label>
+    <StyledDiv>
+      <h1>Accounts</h1>
+      <StyledForm onSubmit={(e) => addAccount(e)}>
+        <label htmlFor='accountType:'>Enter account name:</label>
         <input
           type='text'
-          id='userName'
+          id='accountName'
           required
-          name='userName'
-          value={formData.userName}
+          name='accountName'
+          value={formData.accountName}
           onChange={handleInputChange}
         />
+        <label htmlFor='accountType:'>Enter account type:</label>
         <input
-          type='password'
-          id='password'
+          type='text'
+          id='accountType'
           required
-          name='password'
-          value={formData.password}
+          name='accountType'
+          value={formData.accountType}
           onChange={handleInputChange}
         />
-        <input type='submit' value={isLogin ? 'Login' : 'Create User'} />
+        <label htmlFor='accountSummary:'>Enter a brief summary:</label>
+        <input
+          type='text'
+          id='accountSummary'
+          required
+          name='accountSummary'
+          value={formData.accountSummary}
+          onChange={handleInputChange}
+        />
+        <label htmlFor='taxBracket'>Enter Tax Bracket:</label>
+        <StyledSelect
+          id='taxBracket'
+          name='taxBracket'
+          value={formData.taxBracket} // Use formData for form-controlled select
+          onChange={handleInputChange}
+        >
+          <option value=''>Select Tax Bracket</option>
+          <option value='Low'>Low</option>
+          <option value='Middle'>Middle</option>
+          <option value='High'>High</option>
+        </StyledSelect>
+        <br />
+        <br />
+        <input type='submit' value='Create Account' />
       </StyledForm>
-      <button onClick={() => setIsLogin(!isLogin)}>
-        Switch to {isLogin ? 'Signup' : 'Login'}
-      </button>
+      <StyledDiv>{accounts.map((account) => (
+        <AccountCard
+          key={account.id} // Use the unique ID here
+          accountType={account.account_type}
+          taxBracket={account.tax_bracket}
+          accountName={account.account_name
+          }
+          accountSummary={account.account_summary}
+        />
+      ))}</StyledDiv>
       <button onClick={navigateToAnotherPage}>Return</button>
-    </div>
+    </StyledDiv>
   );
 };
-
 export default AccountContainer;

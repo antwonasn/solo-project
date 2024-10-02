@@ -6,6 +6,7 @@ import Card from '../components/Card.jsx';
 import { useNavigate } from 'react-router-dom';
 
 // Create a styled select component
+
 const StyledSelect = styled.select`
   padding: 10px;
   border-radius: 5px;
@@ -42,6 +43,7 @@ const MainContainer = () => {
     accountType: '',
     taxBracket: '',
     accountName:'',
+    accountSummary: '',
   });
 
 
@@ -52,14 +54,15 @@ const MainContainer = () => {
         selectedItem,
         taxBracket: formData.taxBracket,
         accountType: formData.accountType,
-        accountName: formData.accountName
+        accountName: formData.accountName,
+        accountSummary: formData.accountSummary,
       }));
-      setFormData({ accountType: '', taxBracket: '' , accountName: ''});
+      setFormData({ accountType: '', taxBracket: '' , accountName: '', accountSummary:''});
     };
   };
 
   const navigateToAnotherPage = () => {
-    navigate('/accounts'); // Use the navigate function to go to another page
+    navigate('/login'); // Use the navigate function to go to another page
   };
 
   const handleInputChange = (event) => {
@@ -96,6 +99,14 @@ const MainContainer = () => {
           value={formData.accountType}
           onChange={handleInputChange}
         />
+        <label htmlFor='accountSummary:'>Enter a brief summary:</label>
+        <input
+          type='text'
+          id='accountSummary' required
+          name='accountSummary'
+          value={formData.accountSummary}
+          onChange={handleInputChange}
+        />
         <label htmlFor='taxBracket'>Enter Tax Bracket:</label>
         <StyledSelect
           id='taxBracket'
@@ -113,13 +124,14 @@ const MainContainer = () => {
         <input type='submit' value='Create Card' />
       </StyledForm>
 
-      <button onClick={navigateToAnotherPage}>Accounts</button>
+      <button onClick={navigateToAnotherPage}>Login</button>
       <StyledDiv>{cards.map((card) => (
         <Card
           key={card.id} // Use the unique ID here
           accountType={card.accountType}
           taxBracket={card.taxBracket}
           accountName={card.accountName}
+          accountSummary={card.accountSummary}
         />
       ))}</StyledDiv>
     </div>

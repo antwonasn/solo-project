@@ -19,11 +19,12 @@ const StyledDiv = styled.div`
   }};
 `;
 
-const Card = ({ accountType, taxBracket, accountName }) => {
+const Card = ({ accountType, taxBracket, accountName, accountSummary }) => {
   return (
     <StyledDiv taxBracket={taxBracket}>
       <h1>Account name: {accountName} </h1>
       <p>Account type: {accountType}</p>
+      <p>Summary: {accountSummary}</p>
       <p>Tax Bracket: {taxBracket}</p>
     </StyledDiv>
   );

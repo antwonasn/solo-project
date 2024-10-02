@@ -14,14 +14,14 @@ userController.createUser = async (req, res, next) => {
       // User already exists, throw an error
       return res.status(400).json({ error: 'User already exists' });
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const values = [req.body.username, hashedPassword];
     const queryString =
       'INSERT INTO users (username, password) VALUES ($1, $2)';
 
     const result = await db.query(queryString, values);
     res.locals.createdUser = result.rows[0];
-    console.log('User created, result:', result.rows);
+    // console.log('User created, result:', result.rows);
 
     return next();
   } catch (err) {
@@ -66,7 +66,7 @@ userController.verifyUser = async (req, res, next) => {
     }
 
     // If username exists and password matches
-    res.locals.user = user; // Optionally store user info for next middleware
+    res.locals.user = user.username; // Optionally store user info for next middleware
     console.log('User verified successfully:', user);
 
     req.session.userId = user.id; // Or user.username or any relevant data

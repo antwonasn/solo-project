@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Us
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from './actions/actions.js';
 import MainContainer from './containers/MainContainer.jsx';
+import LoginContainer from './containers/LoginContainer.jsx';
 import AccountContainer from './containers/AccountContainer.jsx';
 
 const App = () => {
@@ -22,7 +23,8 @@ const App = () => {
         {/* Set up routing */}
         <Routes>
           <Route path="/" element={<MainContainer />} /> {/* Use element prop */}
-          <Route path="/accounts" element={<AccountContainer />} /> Use element prop
+          <Route path="/login" element={<LoginContainer />} /> Use element prop
+          <Route path="/accounts" element={<AccountContainer/>}></Route>
         </Routes>
       </div>
     </Router>
