@@ -19,9 +19,9 @@ accountController.fetchAccount = async (req, res, next) => {
     return next();
   } catch (err) {
     const errorObj = {
-      log: `accountController.createAccount: ERROR: ${err.message}`,
+      log: `accountController.fetchAccount: ERROR: ${err.message}`,
       message: {
-        err: 'accountController.createAccount: ERROR: Failed to create account',
+        err: 'accountController.fetchAccount: ERROR: Failed to fetch accounts',
       },
     };
     return next(errorObj);
@@ -30,9 +30,9 @@ accountController.fetchAccount = async (req, res, next) => {
 
 accountController.createAccount = async (req, res, next) => {
   try {
-    const { accountName, accountType, accountSummary, taxBracket, userId } =
+    const { accountName, accountType, accountSummary, taxBracket, userId} =
       req.body;
-    if (!accountName || !accountType || !userId)
+    if (!accountName || !accountType)
       throw new Error({ message: 'Missing required fields' });
 
     const values = [

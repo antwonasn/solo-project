@@ -4,7 +4,7 @@ const userController = {};
 
 userController.createUser = async (req, res, next) => {
   try {
-    // console.log(`req body:`, req.body);
+    console.log(`req body create user:`, req.body);
     const { username, password } = req.body;
     // Check if user already exists
     const existingUserQuery = 'SELECT COUNT(*) FROM users WHERE username = $1';
@@ -17,11 +17,11 @@ userController.createUser = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const values = [req.body.username, hashedPassword];
     const queryString =
-      'INSERT INTO users (username, password) VALUES ($1, $2)';
+      'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
 
     const result = await db.query(queryString, values);
     res.locals.createdUser = result.rows[0];
-    // console.log('User created, result:', result.rows);
+    console.log('User created, result:', result.rows);
 
     return next();
   } catch (err) {

@@ -40,6 +40,7 @@ const MainContainer = () => {
   console.log('Selected item from Redux:', cards);
   // set react states
   const [formData, setFormData] = useState({
+    selectedItem: '',
     accountType: '',
     taxBracket: '',
     accountName:'',
@@ -51,12 +52,19 @@ const MainContainer = () => {
     e.preventDefault();
     {
       dispatch(actions.addNewCard({
-        selectedItem,
+        selectedItem:selectedItem,
         taxBracket: formData.taxBracket,
         accountType: formData.accountType,
         accountName: formData.accountName,
         accountSummary: formData.accountSummary,
       }));
+      console.log('Card dispatched:', {
+        selectedItem: selectedItem,
+        taxBracket: formData.taxBracket,
+        accountType: formData.accountType,
+        accountName: formData.accountName,
+        accountSummary: formData.accountSummary,
+      });
       setFormData({ accountType: '', taxBracket: '' , accountName: '', accountSummary:''});
     };
   };

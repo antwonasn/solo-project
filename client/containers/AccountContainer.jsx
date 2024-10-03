@@ -73,10 +73,7 @@ const AccountContainer = () => {
           taxBracket: '',
         }); // Clear form only on success
         fetchAccounts();
-      } else {
-        const errorData = await response.json(); // Get error message from response if available
-        setError(errorData.message || 'Error during account creation');
-      }
+      } // Get error message from response if available
     } catch (error) {
       console.error('Error:', error);
     }
@@ -94,11 +91,9 @@ const AccountContainer = () => {
       } else {
         const errorData = await response.json();
         console.error('Error fetching accounts:', errorData);
-        setError(errorData.message || 'Error fetching accounts');
       }
     } catch (error) {
       console.error('Error:', error);
-      setError('An error occurred while fetching accounts.');
     }
   };
 
@@ -155,16 +150,17 @@ const AccountContainer = () => {
         <br />
         <input type='submit' value='Create Account' />
       </StyledForm>
-      <StyledDiv>{accounts.map((account) => (
-        <AccountCard
-          key={account.id} // Use the unique ID here
-          accountType={account.account_type}
-          taxBracket={account.tax_bracket}
-          accountName={account.account_name
-          }
-          accountSummary={account.account_summary}
-        />
-      ))}</StyledDiv>
+      <StyledDiv>
+        {accounts.map((account) => (
+          <AccountCard
+            key={account.id} // Use the unique ID here
+            accountType={account.account_type}
+            taxBracket={account.tax_bracket}
+            accountName={account.account_name}
+            accountSummary={account.account_summary}
+          />
+        ))}
+      </StyledDiv>
       <button onClick={navigateToAnotherPage}>Return</button>
     </StyledDiv>
   );

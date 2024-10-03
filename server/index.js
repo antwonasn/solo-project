@@ -39,8 +39,8 @@ app.get('/accounts/:userId', accountController.fetchAccount, (req, res) => {
 
 //signup post request
 app.post('/signup', userController.createUser, (req, res) => {
-  // console.log(`created user`, res.locals.createdUser);
-  return res.status(200).json({ message: 'Signup successful' });
+  console.log(`created user`, res.locals.createdUser);
+  return res.status(200).json(res.locals.createdUser);
 });
 
 // login post request
@@ -51,7 +51,7 @@ app.post('/login', userController.verifyUser, (req, res) => {
       .status(200)
       .json({
         message: 'Login successful',
-        userId: req.session.userId,
+        id: req.session.userId,
         username: res.locals.user,
       });
   } else {

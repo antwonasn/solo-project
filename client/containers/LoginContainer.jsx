@@ -34,9 +34,12 @@ const LoginContainer = () => {
           password: formData.password,
         }),
       });
+      const data = await response.json();
 
       if (response.ok) {
         // If login/signup is successful, redirect to the accounts page
+        console.log('User created 1:', data);
+        localStorage.setItem('user', data.id);
         navigate('/accounts');
       } else {
         // If login/signup fails, show an error message
@@ -46,7 +49,6 @@ const LoginContainer = () => {
       setFormData({ password: '', userName: '' }); // Clear form
     } catch (error) {
       console.error('Error:', error);
-      setError('An error occurred. Please try again.');
     }
   };
 
@@ -69,7 +71,7 @@ const LoginContainer = () => {
 
       if (response.ok) {
         console.log('User verified:', data);
-        localStorage.setItem('user', data.userId);
+        localStorage.setItem('user', data.id);
         
         navigate('/accounts');
         setFormData({ password: '', userName: '' }); // Clear form
