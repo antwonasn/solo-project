@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 const initialState = {
-  greeting: 'Welcome and hello my freindorions',
   selectedItem: null,
   cards: [
     {
@@ -69,7 +68,7 @@ const initialState = {
     },
     {
       selectedItem: null,
-      taxBracket: '',
+      taxBracket: 'Low',
       accountType: 'Mutual Fund',
       accountName: 'Index Fund',
       accountSummary:'Low fee Mutual fund, designed to closely mirror and/or outperform the index it is based off of',
@@ -120,8 +119,6 @@ const initialState = {
 
 const greetingReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_GREETING':
-      return { ...state, greeting: action.payload };
     case 'SET_SELECTED_ITEM':
       return {
         ...state,

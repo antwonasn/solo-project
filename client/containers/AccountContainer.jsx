@@ -3,21 +3,106 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import AccountCard from '../components/AccountCard.jsx';
 
-const StyledDiv = styled.div`
-  padding: 20px;
-  border: 1.5px solid; // Keep the border defined here
+const StyledSelect = styled.select`
+  padding: 12px;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 23px;
+  margin-bottom: 10px;
+  max-width: 33%;
+  background-color: #f1f1f1;
+  border: 2px solid #ddd;
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
 `;
 
 const StyledForm = styled.form`
-  padding: 10px;
-  border-radius: 5px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fafafa;
+  margin-top: 20px;
   margin-bottom: 20px;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  label {
+    margin: auto;
+  }
+
+  input[type='text'],
+  input[type='submit'] {
+    display: block;
+    width: 85%;
+    padding: 12px;
+    margin: 10px 0;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    background-color: #f1f1f1;
+
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+  }
+
+  input[type='submit'] {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
 `;
 
-const StyledSelect = styled.select`
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+const HeaderTitle = styled.h1`
+  color: black; /* Change the text color to white */
+  margin: auto; /* Remove default margin for better alignment */
+`;
+
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column; // Align children in a column
+  align-items: center; // Center align items horizontally
+  gap: 20px; // Space between elements
+  padding: 20px;
+`;
+
+const StyledButton = styled.button`
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0 5px; // Reduced margin to decrease space between buttons
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center; // Center the buttons horizontally
+  margin: 20px 0; // Space above and below the button container
 `;
 
 const AccountContainer = () => {
@@ -105,7 +190,6 @@ const AccountContainer = () => {
   console.log('accounts array', accounts);
   return (
     <StyledDiv>
-      <h1>Accounts</h1>
       <StyledForm onSubmit={(e) => addAccount(e)}>
         <label htmlFor='accountType:'>Enter account name:</label>
         <input
@@ -150,6 +234,11 @@ const AccountContainer = () => {
         <br />
         <input type='submit' value='Create Account' />
       </StyledForm>
+      <HeaderTitle>User Accounts</HeaderTitle>
+      <ButtonContainer>
+        <StyledButton onClick={navigateToAnotherPage}>Return</StyledButton>
+      </ButtonContainer>
+
       <StyledDiv>
         {accounts.map((account) => (
           <AccountCard
@@ -161,7 +250,6 @@ const AccountContainer = () => {
           />
         ))}
       </StyledDiv>
-      <button onClick={navigateToAnotherPage}>Return</button>
     </StyledDiv>
   );
 };

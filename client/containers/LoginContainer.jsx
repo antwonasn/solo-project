@@ -3,9 +3,69 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledForm = styled.form`
-  padding: 10px;
-  border-radius: 5px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fafafa;
+  margin-top: 20px;
   margin-bottom: 20px;
+  margin: auto;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  input[type="text"], input[type="password"] {
+    display: block;
+    width: 85%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    background-color: #f1f1f1;
+
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+  }
+
+  input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+`;
+
+const StyledDiv = styled.div`
+  form {
+    margin-top: 20px; // Apply margin-top to form inside this div
+  }
+`;
+
+const StyledButton = styled.button`
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0 5px; // Reduced margin to decrease space between buttons
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center; // Center the buttons horizontally
+  margin: 20px 0; // Optional: Add vertical margin to space out from form
 `;
 
 const LoginContainer = () => {
@@ -93,7 +153,7 @@ const LoginContainer = () => {
   };
 
   return (
-    <div>
+    <StyledDiv>
       <StyledForm onSubmit={isLogin ? verifyUser : addUser}>
         <label htmlFor='userName'>Enter User Name:</label>
         <input
@@ -104,6 +164,7 @@ const LoginContainer = () => {
           value={formData.userName}
           onChange={handleInputChange}
         />
+        <label htmlFor='password'>Enter Password:</label>
         <input
           type='password'
           id='password'
@@ -114,11 +175,13 @@ const LoginContainer = () => {
         />
         <input type='submit' value={isLogin ? 'Login' : 'Create User'} />
       </StyledForm>
-      <button onClick={() => setIsLogin(!isLogin)}>
-        Switch to {isLogin ? 'Signup' : 'Login'}
-      </button>
-      <button onClick={navigateToAnotherPage}>Return</button>
-    </div>
+      <ButtonContainer>
+        <StyledButton onClick={() => setIsLogin(!isLogin)}>
+          Switch to {isLogin ? 'Signup' : 'Login'}
+        </StyledButton>
+        <StyledButton onClick={navigateToAnotherPage}>Return</StyledButton>
+      </ButtonContainer>
+    </StyledDiv>
   );
 };
 

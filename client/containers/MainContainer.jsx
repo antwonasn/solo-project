@@ -8,20 +8,114 @@ import { useNavigate } from 'react-router-dom';
 // Create a styled select component
 
 const StyledSelect = styled.select`
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 23px;
+  margin-bottom: 10px;
+  max-width: 32%;
+  background-color: #f1f1f1;
+
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+`;
+
+const HeaderTitle = styled.h1`
+  color: black; /* Change the text color to your preference */
+  text-align: center; /* Center the text */
+  margin: 20px auto; /* Center the header and add some margin */
+  max-width: 600px; /* Set a max-width to control the size */
 `;
 
 const StyledForm = styled.form`
-  padding: 10px;
-  border-radius: 5px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fafafa;
+  margin-top: 10px;
   margin-bottom: 20px;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  label {
+    margin: auto;
+  }
+
+  input[type='text'],
+  input[type='submit'] {
+    display: block;
+    width: 40%;
+    padding: 12px;
+    margin: 10px 0;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    background-color: #f1f1f1;
+
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+  }
+
+  input[type='submit'] {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
 `;
 
 const StyledDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; // Center cards horizontally
+  align-items: flex-start; // Align cards at the top
   padding: 20px;
-  border: 1.5px solid; // Keep the border defined here
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center; // Center the buttons horizontally
+  margin: 20px 0; // Optional: Add vertical margin to space out from form
+`;
+
+const StyledButton = styled.button`
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 30%;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0 5px; // Reduced margin to decrease space between buttons
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const MainContainerDiv = styled.div`
+
+  
 `;
 
 const MainContainer = () => {
@@ -43,21 +137,22 @@ const MainContainer = () => {
     selectedItem: '',
     accountType: '',
     taxBracket: '',
-    accountName:'',
+    accountName: '',
     accountSummary: '',
   });
-
 
   const addCard = (e) => {
     e.preventDefault();
     {
-      dispatch(actions.addNewCard({
-        selectedItem:selectedItem,
-        taxBracket: formData.taxBracket,
-        accountType: formData.accountType,
-        accountName: formData.accountName,
-        accountSummary: formData.accountSummary,
-      }));
+      dispatch(
+        actions.addNewCard({
+          selectedItem: selectedItem,
+          taxBracket: formData.taxBracket,
+          accountType: formData.accountType,
+          accountName: formData.accountName,
+          accountSummary: formData.accountSummary,
+        })
+      );
       console.log('Card dispatched:', {
         selectedItem: selectedItem,
         taxBracket: formData.taxBracket,
@@ -65,8 +160,13 @@ const MainContainer = () => {
         accountName: formData.accountName,
         accountSummary: formData.accountSummary,
       });
-      setFormData({ accountType: '', taxBracket: '' , accountName: '', accountSummary:''});
-    };
+      setFormData({
+        accountType: '',
+        taxBracket: '',
+        accountName: '',
+        accountSummary: '',
+      });
+    }
   };
 
   const navigateToAnotherPage = () => {
@@ -82,19 +182,19 @@ const MainContainer = () => {
   };
 
   return (
-    <div>
-      <StyledSelect onChange={handleChange} value={selectedItem || ''}>
-        <option value=''>Select Tax Bracket</option>
-        <option value='Low'>Low</option>
-        <option value='Middle'>Middle</option>
-        <option value='High'>High</option>
-      </StyledSelect>
+    <MainContainerDiv>
+      <ButtonContainer>
+        <StyledButton onClick={navigateToAnotherPage}>
+          Login/Signup
+        </StyledButton>
+      </ButtonContainer>
 
       <StyledForm onSubmit={(e) => addCard(e)}>
-      <label htmlFor='accountType:'>Enter account name:</label>
+        <label htmlFor='accountType:'>Enter account name:</label>
         <input
           type='text'
-          id='accountName' required
+          id='accountName'
+          required
           name='accountName'
           value={formData.accountName}
           onChange={handleInputChange}
@@ -102,7 +202,8 @@ const MainContainer = () => {
         <label htmlFor='accountType:'>Enter account type:</label>
         <input
           type='text'
-          id='accountType' required
+          id='accountType'
+          required
           name='accountType'
           value={formData.accountType}
           onChange={handleInputChange}
@@ -110,7 +211,8 @@ const MainContainer = () => {
         <label htmlFor='accountSummary:'>Enter a brief summary:</label>
         <input
           type='text'
-          id='accountSummary' required
+          id='accountSummary'
+          required
           name='accountSummary'
           value={formData.accountSummary}
           onChange={handleInputChange}
@@ -131,18 +233,30 @@ const MainContainer = () => {
         <br />
         <input type='submit' value='Create Card' />
       </StyledForm>
+      <HeaderTitle>Learn about Accounts!</HeaderTitle>
+      <StyledSelect onChange={handleChange} value={selectedItem || ''}>
+        <option value=''>Select Tax Bracket</option>
+        <option value='Low'>Low</option>
+        <option value='Middle'>Middle</option>
+        <option value='High'>High</option>
+      </StyledSelect>
 
-      <button onClick={navigateToAnotherPage}>Login</button>
-      <StyledDiv>{cards.map((card) => (
-        <Card
-          key={card.id} // Use the unique ID here
-          accountType={card.accountType}
-          taxBracket={card.taxBracket}
-          accountName={card.accountName}
-          accountSummary={card.accountSummary}
-        />
-      ))}</StyledDiv>
-    </div>
+      <StyledDiv>
+        {cards.map((card) => (
+          <Card
+            key={card.id} // Use the unique ID here
+            accountType={card.accountType}
+            taxBracket={card.taxBracket}
+            accountName={card.accountName}
+            accountSummary={card.accountSummary}
+          />
+        ))}
+      </StyledDiv>
+      <h4>
+        *Created by a washed Ex-Rookie Financial Advisor, take with a bucket of
+        salt*
+      </h4>
+    </MainContainerDiv>
   );
 };
 

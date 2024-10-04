@@ -1,34 +1,39 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Use Routes instead of Switch
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux'; // Import Provider
 import { useSelector, useDispatch } from 'react-redux';
+import store from './store'; // Import the store
 import * as actions from './actions/actions.js';
 import MainContainer from './containers/MainContainer.jsx';
 import LoginContainer from './containers/LoginContainer.jsx';
 import AccountContainer from './containers/AccountContainer.jsx';
+import styled from 'styled-components';
+
+const Header = styled.header`
+  /* Add your header styles here */
+  background-color: rgb(0, 123, 255);
+  padding: 20px;
+  text-align: center;
+  color:white;
+`;
 
 const App = () => {
-  const greeting = useSelector((state) => state.state.greeting);
-  const dispatch = useDispatch();
-
-  const changeGreeting = () => {
-    dispatch(actions.setGreeting('Hello, Redux is awesome!'));
-  };
 
   return (
-    <Router> {/* Wrap everything in Router */}
-      <div>
-        <button onClick={changeGreeting}>Change Greeting</button>
-        <h1>{greeting}</h1>
-        
-        {/* Set up routing */}
+    <Provider store={store}>
+      <Router>
+      <Header>
+          <h1>Finance is kinda cool</h1>
+          {/* Add navigation links if needed */}
+        </Header>
         <Routes>
-          <Route path="/" element={<MainContainer />} /> {/* Use element prop */}
-          <Route path="/login" element={<LoginContainer />} /> Use element prop
-          <Route path="/accounts" element={<AccountContainer/>}></Route>
+          <Route path='/' element={<MainContainer />} />
+          <Route path='/login' element={<LoginContainer />} />
+          <Route path='/accounts' element={<AccountContainer />} />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </Provider>
   );
 };
 
-export default App;
+export default App;  
