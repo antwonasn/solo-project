@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const PG_URI = 'postgresql://postgres.vylnexynkbmdlplfhocp:lwZLP3w8sOiO64JG@aws-0-us-west-1.pooler.supabase.com:6543/postgres'
+const PG_URI = 
 
 const pool = new Pool({
     connectionString: PG_URI,
